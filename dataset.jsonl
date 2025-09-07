@@ -1,0 +1,3 @@
+{"prompts": ["hi", "hii", "hello", "hey"], "response": "Hi there! I am a chatbot 🤖"}
+{"prompts": ["how are you", "how r u", "whats up"], "response": "I’m good, thanks! How about you?"}
+{"prompts": ["bye", "goodbye", "see you"], "response": "Goodbye 👋 Have a nice day!"}
