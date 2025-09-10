@@ -44,11 +44,5 @@ def chat():
     resp = get_response(msg,DATASET)
     return jsonify({"response":resp})
 
-if __name__ == "__main__":
-    app.run(debug=True,port=5000)
-
-
-
-
-
-
+def handler(request, *args, **kwargs):
+    return app(request.environ, request.start_response)
