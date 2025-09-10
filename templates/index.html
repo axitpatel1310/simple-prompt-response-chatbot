@@ -4,21 +4,108 @@
   <meta charset="utf-8" />
   <title>Simple Chatbot</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
-    #chat { border: 1px solid #ddd; padding: 10px; height: 300px; overflow-y: auto; background: #fafafa; }
-    .msg { margin: 8px 0; }
-    .user { text-align: right; color: #111; }
-    .bot  { text-align: left; color: #0066cc; }
-    input[type="text"] { width: 80%; padding: 8px; }
-    button { padding: 8px 12px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      max-width: 90%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #0066cc;
+      color: #fff;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #chat {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .msg {
+      margin: 10px 0;
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      line-height: 1.4;
+      display: inline-block;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #0066cc;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot {
+      background: #e5e5ea;
+      color: #111;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .chat-input input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .chat-input button {
+      margin-left: 8px;
+      padding: 10px 16px;
+      background: #0066cc;
+      border: none;
+      color: #fff;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .chat-input button:hover {
+      background: #0052a3;
+    }
   </style>
 </head>
 <body>
-  <h2>Simple Chatbot</h2>
-  <div id="chat"></div>
-  <div style="margin-top:10px;">
-    <input id="msg" type="text" placeholder="Type a message (e.g. hi)" />
-    <button id="send">Send</button>
+  <div class="chat-container">
+    <div class="chat-header">💬 Simple Chatbot</div>
+    <div id="chat"></div>
+    <div class="chat-input">
+      <input id="msg" type="text" placeholder="Type a message..." />
+      <button id="send">Send</button>
+    </div>
   </div>
 
 <script>
@@ -37,7 +124,7 @@ function addMessage(text, cls) {
 async function sendMessage() {
   const text = msgInput.value.trim();
   if (!text) return;
-  addMessage("You: " + text, 'user');
+  addMessage(text, 'user');
   msgInput.value = '';
   try {
     const res = await fetch('/chat', {
@@ -47,12 +134,12 @@ async function sendMessage() {
     });
     const j = await res.json();
     if (j.response) {
-      addMessage("Bot: " + j.response, 'bot');
+      addMessage(j.response, 'bot');
     } else if (j.error) {
-      addMessage("Error: " + j.error, 'bot');
+      addMessage("⚠️ " + j.error, 'bot');
     }
   } catch (e) {
-    addMessage("Error: could not reach server.", 'bot');
+    addMessage("⚠️ Could not reach server.", 'bot');
   }
 }
 
