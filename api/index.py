@@ -3,18 +3,15 @@ from flask import Flask, request, jsonify, render_template
 import json
 import os
 
-# Make Flask look for templates in ../templates (project root /templates)
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), "..", "templates"))
 
 def load_dataset(path=None):
-    # default path = repo root / dataset.jsonl
     if path is None:
         path = os.path.join(os.path.dirname(__file__), "..", "dataset.jsonl")
     path = os.path.abspath(path)
     dataset = []
     if not os.path.exists(path):
-        # helpful debug message which will appear in function logs
-        print(f"[load_dataset] dataset not found at {path}")
+        print(f"dataset not found at {path}")
         return dataset
 
     with open(path, "r", encoding="utf-8") as f:
@@ -25,7 +22,7 @@ def load_dataset(path=None):
             try:
                 dataset.append(json.loads(line))
             except Exception as e:
-                print(f"[load_dataset] skipping bad line: {e}")
+                print(f"skipping bad line: {e}")
     return dataset
 
 def get_response(user_input, dataset):
@@ -35,9 +32,8 @@ def get_response(user_input, dataset):
         for prompt in prompts:
             if user_input == prompt.lower():
                 return item.get("response", "")
-    return "Sorry, I don't get that."
+    return "Sorry, but what was that? I didnt get it.."
 
-# Load dataset at import time
 DATASET = load_dataset()
 
 @app.route("/")
